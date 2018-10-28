@@ -61,7 +61,7 @@ testMSE
 barplot(trainMSE,width=0.02,xlab="Data",ylab="Error",main="Training Error")
 barplot(testMSE,width=0.02,xlab="Data",ylab="Error",main="Testing Error")
 
-model1=cv.lm(Data,(sales~TV),m=10)ik
+model1=cv.lm(Data,(sales~TV),m=10)
 
 
 
