@@ -1,67 +1,58 @@
+Including Libraries
 library("Metrics")
 library("lattice")
 library("DAAG")
-
-Data <- read.csv("C:/Users/Jha's/Downloads/Advertising.csv")
+# Loading Dataset
+Data <- cars
 Data
-Training = Data[1:140,]
-Training
-Testing = Data[141:200,]
-Testing
+# Splitting Dataset into training and testing dataset
 
-TVm <- lm(sales~TV,data = Training)
+Training = Data[1:40,]
+Testing = Data[41:50,]
+
+# Formation of model for training dataset.
+
+TVm <- lm(dist~speed,data = Training)
 TVm
-Radiom <- lm(sales~radio,data=Training)
-Radiom
 
-newspaperm =lm(sales~newspaper,data=Training)
-newspaperm
+# Model Plotting.
 
-plot(Training$sales~Training$TV,xlab="TV",ylab="Sales")
+plot(Training$dist~Training$speed,xlab = "speed",ylab = "dist")
 abline(TVm)
+# Prediction for model for training Data
+TV1 <- predict(TVm, Training)
+# Prediction for model for training Data
+TV2<- predict(TVm, Testing)
 
-plot(Training$sales~Training$newspaper,xlab="Newspaper",ylab="Sales")
-abline(newspaperm)
+# Calculation of Mean Squared Error For Training Dataset
 
-plot(Training$sales~Training$radio,xlab="Radio",ylab="Sales")
-abline(Radiom)
-
-TV1<- predict(TVm,Training)
-Radio1<-predict(Radiom,Training)
-newspaper1 <- predict(newspaperm,Training)
-
-TV2<- predict(TVm,Testing)
-Radio2<-predict(Radiom,Testing)
-newspaper2 <- predict(newspaperm,Testing)
-
-TVTrainMSE <- mse(Training$sales,TV1)
+TVTrainMSE <- mse(Training$dist, TV1)
 TVTrainMSE
 
-RadioTrainMSE <-mse(Training$sales,Radio1)
-RadioTrainMSE
 
-newspapertrainmse <- mse(Training$sales,newspaper1)
-newspapertrainmse
+# Calculation of Mean Squared Error For Testing Dataset
 
-TVTestMSE <- mse(Testing$sales,TV2)
+TVTestMSE <- mse(Testing$dist, TV2)
 TVTestMSE
 
-RadioTestMSE <-mse(Testing$sales,Radio2)
-RadioTestMSE
 
-newspapertestmse <- mse(Testing$sales,newspaper2)
-newspapertestmse
 
-trainMSE <- c(TVTrainMSE,RadioTrainMSE,newspapertrainmse)
+# Combining all Mean Squared Errors.
+
+trainMSE <- c(TVTrainMSE)
 trainMSE
 
-testMSE <- c(TVTestMSE,RadioTestMSE,newspapertestmse)
+testMSE <- c(TVTestMSE)
 testMSE
 
-barplot(trainMSE,width=0.02,xlab="Data",ylab="Error",main="Training Error")
-barplot(testMSE,width=0.02,xlab="Data",ylab="Error",main="Testing Error")
+# Plotting Mean Squared Error for Training and Testing Dataset.
 
-model1=cv.lm(Data,(sales~TV),m=10)
+barplot(trainMSE, width = 0.02, xlab = "Data", ylab = "Error", main ="Training Error")
+barplot(testMSE, width = 0.02, xlab = "Data", ylab = "Error" ,main = "Testing Error")
+
+# Apply Cross Validation and plot graph for error
+
+model1=cv.lm(Data,(dist~speed),m=2)
 
 
 
